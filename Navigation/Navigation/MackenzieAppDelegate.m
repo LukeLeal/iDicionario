@@ -7,16 +7,15 @@
 //
 
 #import "MackenzieAppDelegate.h"
-#import "LetraAViewController.h"
+#import "MainViewController.h"
 
 @implementation MackenzieAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    LetraAViewController *viewController = [[LetraAViewController alloc]
+    MainViewController *viewController = [[MainViewController alloc]
                                            initWithNibName:nil
                                            bundle:nil];
-    
     
     self.navigationController = [[UINavigationController alloc]
                                  initWithRootViewController:viewController];
@@ -24,8 +23,6 @@
                    initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = self.navigationController;
 
-
-    
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     

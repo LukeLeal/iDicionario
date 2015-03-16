@@ -21,6 +21,10 @@
 		27156F7218B76AF50053A99C /* NavigationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 27156F7118B76AF50053A99C /* NavigationTests.m */; };
 		27156F7D18BA89430053A99C /* LetraAViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27156F7C18BA89430053A99C /* LetraAViewController.m */; };
 		27156F8018BA8B210053A99C /* LetraBViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27156F7F18BA8B210053A99C /* LetraBViewController.m */; };
+		4E52199E1AB74F1300854AFE /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E52199D1AB74F1300854AFE /* MainViewController.m */; };
+		4E5219A11AB75B4E00854AFE /* LetraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E5219A01AB75B4E00854AFE /* LetraViewController.m */; };
+		4E5219A41AB766BE00854AFE /* CentralData.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E5219A31AB766BE00854AFE /* CentralData.m */; };
+		4E5219A71AB7694F00854AFE /* LetraInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E5219A61AB7694F00854AFE /* LetraInfo.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +58,14 @@
 		27156F7C18BA89430053A99C /* LetraAViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LetraAViewController.m; sourceTree = "<group>"; };
 		27156F7E18BA8B210053A99C /* LetraBViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LetraBViewController.h; sourceTree = "<group>"; };
 		27156F7F18BA8B210053A99C /* LetraBViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LetraBViewController.m; sourceTree = "<group>"; };
+		4E52199C1AB74F1300854AFE /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		4E52199D1AB74F1300854AFE /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		4E52199F1AB75B4D00854AFE /* LetraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LetraViewController.h; sourceTree = "<group>"; };
+		4E5219A01AB75B4E00854AFE /* LetraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LetraViewController.m; sourceTree = "<group>"; };
+		4E5219A21AB766BE00854AFE /* CentralData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CentralData.h; sourceTree = "<group>"; };
+		4E5219A31AB766BE00854AFE /* CentralData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CentralData.m; sourceTree = "<group>"; };
+		4E5219A51AB7694F00854AFE /* LetraInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LetraInfo.h; sourceTree = "<group>"; };
+		4E5219A61AB7694F00854AFE /* LetraInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LetraInfo.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +133,14 @@
 				27156F7C18BA89430053A99C /* LetraAViewController.m */,
 				27156F7E18BA8B210053A99C /* LetraBViewController.h */,
 				27156F7F18BA8B210053A99C /* LetraBViewController.m */,
+				4E52199C1AB74F1300854AFE /* MainViewController.h */,
+				4E52199D1AB74F1300854AFE /* MainViewController.m */,
+				4E52199F1AB75B4D00854AFE /* LetraViewController.h */,
+				4E5219A01AB75B4E00854AFE /* LetraViewController.m */,
+				4E5219A21AB766BE00854AFE /* CentralData.h */,
+				4E5219A31AB766BE00854AFE /* CentralData.m */,
+				4E5219A51AB7694F00854AFE /* LetraInfo.h */,
+				4E5219A61AB7694F00854AFE /* LetraInfo.m */,
 			);
 			path = Navigation;
 			sourceTree = "<group>";
@@ -251,9 +271,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				27156F5D18B76AF50053A99C /* MackenzieAppDelegate.m in Sources */,
+				4E5219A11AB75B4E00854AFE /* LetraViewController.m in Sources */,
+				4E5219A71AB7694F00854AFE /* LetraInfo.m in Sources */,
 				27156F7D18BA89430053A99C /* LetraAViewController.m in Sources */,
 				27156F8018BA8B210053A99C /* LetraBViewController.m in Sources */,
+				4E52199E1AB74F1300854AFE /* MainViewController.m in Sources */,
 				27156F5918B76AF50053A99C /* main.m in Sources */,
+				4E5219A41AB766BE00854AFE /* CentralData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -454,6 +478,7 @@
 				27156F7718B76AF50053A99C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		27156F7818B76AF50053A99C /* Build configuration list for PBXNativeTarget "NavigationTests" */ = {
 			isa = XCConfigurationList;
@@ -462,6 +487,7 @@
 				27156F7A18B76AF50053A99C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
