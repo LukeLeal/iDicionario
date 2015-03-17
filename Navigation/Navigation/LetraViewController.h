@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "LetraInfo.h"
+#import "CentralData.h"
 
 @interface LetraViewController : UIViewController
 

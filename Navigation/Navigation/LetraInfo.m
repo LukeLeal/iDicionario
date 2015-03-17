@@ -10,11 +10,14 @@
 
 @implementation LetraInfo
 
--(id) initWithLetra: (NSString *)l palavra: (NSString *)p imagem:(NSString *)i{
+-(id) initWithLetra: (NSString *)l palavra: (NSString *)p traducao: (NSString *)t imagem:(NSString *)i num: (int)n{
     self = [super init];
     if (self) {
         _letra = l;
         _palavra = p;
+        _num = n;
+        _imagem = i;
+        _traducao = t;
     }
     return self;
 }

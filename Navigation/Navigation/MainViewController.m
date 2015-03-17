@@ -20,34 +20,31 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     UISearchBar *search = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 100, self.view.frame.size.width -50, 35)];
-    search.text = @"NOT IMPLEMENTED";
+    search.placeholder = @"NOT IMPLEMENTED";
     [self.view addSubview:search];
     UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(((self.view.frame.size.width/2)-50), 150, 100, 25)];
-    title.text = @"Dicionator";
+    title.text = @"Dicionator";//Nome Placeholder
     [self.view addSubview:title];
+    
     //CentralData *cd = [[CentralData alloc] init];
-    letras = [[[CentralData alloc] init] createData];
-    //NSLog(@"%d", [letras count]);
-    for (int i = 0; i < [letras count]; i++) {
+    letras = [[[CentralData alloc] init] getLetras];
+    for (int i = 0; i < [letras count]/2; i++) {
         UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        button.frame = CGRectMake((i + 1)*15, 200, 10, 10);
+        button.frame = CGRectMake((i + 1)*20, 200, 15, 10);
         [button setTitle:[(LetraInfo *)[letras objectAtIndex:i] letra] forState:UIControlStateNormal];
         [button addTarget:self action:@selector(clicaLetra:) forControlEvents:UIControlEventTouchUpInside];
         [button setTag:i];
         [self.view addSubview:button];
     }
-//    UIButton *teste = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-//    teste.frame = CGRectMake(50, 200, 10, 10);
-//    [teste setTitle:@"A" forState:UIControlStateNormal];
-//    [teste addTarget:self action:@selector(clicaLetra:) forControlEvents:UIControlEventTouchUpInside];
-//    [teste setTag:1];
-//    [self.view addSubview:teste];
-//    UIButton *teste2 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-//    teste2.frame = CGRectMake(50, 300, 10, 10);
-//    [teste2 setTitle:@"B" forState:UIControlStateNormal];
-//    [teste2 addTarget:self action:@selector(clicaLetra:) forControlEvents:UIControlEventTouchUpInside];
-//    [teste2 setTag:2];
-//    [self.view addSubview:teste2];
+    for (int i = ([letras count]/2); i < [letras count]; i++) {
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        button.frame = CGRectMake(((i + 1)*20)-260, 230, 15, 10);
+        [button setTitle:[(LetraInfo *)[letras objectAtIndex:i] letra] forState:UIControlStateNormal];
+        [button addTarget:self action:@selector(clicaLetra:) forControlEvents:UIControlEventTouchUpInside];
+        [button setTag:i];
+        [self.view addSubview:button];
+    }
+
 }
 
 - (void)didReceiveMemoryWarning {
