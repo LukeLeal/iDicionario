@@ -18,22 +18,31 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    [self.view setBackgroundColor:[UIColor whiteColor]];
+
     UISearchBar *search = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 100, self.view.frame.size.width -50, 35)];
     search.placeholder = @"NOT IMPLEMENTED";
     [self.view addSubview:search];
+    
     UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(((self.view.frame.size.width/2)-50), 150, 100, 25)];
     title.text = @"Dicionator";//Nome Placeholder
     [self.view addSubview:title];
     
-    //CentralData *cd = [[CentralData alloc] init];
+    UIButton *comecar = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    comecar.frame = CGRectMake(((self.view.frame.size.width/2)-50), 300, 100, 25);
+    [comecar setTitle:@"Começar" forState:UIControlStateNormal];
+    [comecar addTarget:self action:@selector(iniciarDicio) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:comecar];
+    
+    //Coloca links para cada letra do dicionário em posição baseada pela ordem alfabética
     letras = [[[CentralData alloc] init] getLetras];
     for (int i = 0; i < [letras count]/2; i++) {
         UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         button.frame = CGRectMake((i + 1)*20, 200, 15, 10);
         [button setTitle:[(LetraInfo *)[letras objectAtIndex:i] letra] forState:UIControlStateNormal];
         [button addTarget:self action:@selector(clicaLetra:) forControlEvents:UIControlEventTouchUpInside];
-        [button setTag:i];
+        [button setTag:i]; //Tag é usado para indicar qual letra foi selecionada.
         [self.view addSubview:button];
     }
     for (int i = ([letras count]/2); i < [letras count]; i++) {
@@ -43,7 +52,7 @@
         [button addTarget:self action:@selector(clicaLetra:) forControlEvents:UIControlEventTouchUpInside];
         [button setTag:i];
         [self.view addSubview:button];
-    }
+    }//Botões ainda não foram completamente implementados.
 
 }
 
@@ -52,12 +61,26 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Navigation
+
+-(void)iniciarDicio{
+    LetraViewController *lvc = [[LetraViewController alloc] init];
+    lvc.letra = [letras objectAtIndex:0];
+    LetraViewController *lvcZ = [[LetraViewController alloc] init];
+    lvcZ.letra = [letras objectAtIndex:25];
+    NSMutableArray *controllers = [[NSMutableArray alloc] initWithArray:[self.navigationController viewControllers]];
+    [controllers addObject:lvcZ];
+    [self.navigationController setViewControllers:controllers];
+    [self.navigationController pushViewController:lvc animated:NO]; //Não animado para não mostrar o pedaço da página do Z
+}
+
 -(void)clicaLetra: (id)sender{
     UIButton *b = (UIButton *)sender;
     LetraViewController *lvc = [[LetraViewController alloc] init];
     lvc.letra = [letras objectAtIndex:[b tag]];
     [self.navigationController pushViewController:lvc animated:YES];
-}
+} //Não está completamente implementado.
+
 /*
 #pragma mark - Navigation
 
