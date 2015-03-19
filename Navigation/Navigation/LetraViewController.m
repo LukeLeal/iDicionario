@@ -35,6 +35,7 @@
     palavra = [[UILabel alloc] initWithFrame:CGRectMake(((self.view.frame.size.width/2)-50), 100, 100, 25)];
     palavra.text = [_letra palavra];
     [palavra sizeToFit];
+    [palavra center];
     [self.view addSubview:palavra];
     
     traducao = [[UILabel alloc] initWithFrame:CGRectMake(((self.view.frame.size.width/2)-50), 125, 100, 25)];
@@ -43,7 +44,7 @@
     [self.view addSubview:traducao];
     
     imagem = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width/2, 200, 0, 0)];
-    imagem.image = [UIImage imageNamed:[_letra imagem]];
+    imagem.image = [UIImage imageWithContentsOfFile:[_letra imagem]];
     [self.view addSubview:imagem];
 
 }
@@ -128,7 +129,7 @@
 
 
 //
-//Código da animação quebradamente linda
+//Código da animação erroneamente linda
 //- (void)viewDidLoad {
 //    [super viewDidLoad];
 //    if ([_letra num] < 25) {

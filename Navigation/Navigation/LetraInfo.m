@@ -16,7 +16,7 @@
         _letra = l;
         _palavra = p;
         _num = n;
-        _imagem = i;
+        _imagem = [[NSBundle mainBundle] pathForResource:i ofType:nil];
         _traducao = t;
     }
     return self;

@@ -52,7 +52,7 @@
         [button addTarget:self action:@selector(clicaLetra:) forControlEvents:UIControlEventTouchUpInside];
         [button setTag:i];
         [self.view addSubview:button];
-    }//Botões ainda não foram completamente implementados.
+    }
 
 }
 
@@ -65,9 +65,9 @@
 
 -(void)iniciarDicio{
     LetraViewController *lvc = [[LetraViewController alloc] init];
-    lvc.letra = [letras objectAtIndex:0];
+    lvc.letra = [letras objectAtIndex:0];//Letra A
     LetraViewController *lvcZ = [[LetraViewController alloc] init];
-    lvcZ.letra = [letras objectAtIndex:25];
+    lvcZ.letra = [letras objectAtIndex:25];//Letra Z
     NSMutableArray *controllers = [[NSMutableArray alloc] initWithArray:[self.navigationController viewControllers]];
     [controllers addObject:lvcZ];
     [self.navigationController setViewControllers:controllers];
@@ -78,8 +78,18 @@
     UIButton *b = (UIButton *)sender;
     LetraViewController *lvc = [[LetraViewController alloc] init];
     lvc.letra = [letras objectAtIndex:[b tag]];
-    [self.navigationController pushViewController:lvc animated:YES];
-} //Não está completamente implementado.
+    LetraViewController *lvcA = [[LetraViewController alloc] init];//Letra anterior à clicada
+    if ([b tag] == 0) {
+        lvcA.letra = [letras objectAtIndex:25];
+    } else {
+        lvcA.letra = [letras objectAtIndex:[b tag] -1];
+    }
+    NSMutableArray *controllers = [[NSMutableArray alloc] initWithArray:[self.navigationController viewControllers]];
+    [controllers addObject:lvcA];
+    [self.navigationController setViewControllers:controllers];
+    [self.navigationController pushViewController:lvc animated:NO];
+    
+} 
 
 /*
 #pragma mark - Navigation
