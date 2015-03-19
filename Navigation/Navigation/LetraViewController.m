@@ -25,7 +25,6 @@
     
     [self.view setBackgroundColor:[UIColor whiteColor]];
     self.title = [_letra letra];
-    
     UIBarButtonItem *next = [[UIBarButtonItem alloc]
                                  initWithBarButtonSystemItem:UIBarButtonSystemItemFastForward target:self action:@selector(next:)];
     self.navigationItem.rightBarButtonItem=next;
@@ -50,6 +49,7 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
+    imagem.frame = CGRectMake(self.view.frame.size.width/2, 200, 0, 0);
     [UIView animateWithDuration:1.5 animations:^{
         imagem.frame = CGRectMake(self.view.frame.size.width/2 - 100, 200, 200, 200);
         for (int i = 0; i < 10; i++) {

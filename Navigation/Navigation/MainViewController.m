@@ -52,6 +52,10 @@
         [button addTarget:self action:@selector(clicaLetra:) forControlEvents:UIControlEventTouchUpInside];
         [button setTag:i];
         [self.view addSubview:button];
+        
+//        UITabBar *tabbar = [[UITabBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height -44, self.view.frame.size.width, 44)];
+//        [tabbar setBackgroundColor:[UIColor redColor]];
+//        [self.view addSubview:tabbar];
     }
 
 }
@@ -89,10 +93,9 @@
     [self.navigationController setViewControllers:controllers];
     [self.navigationController pushViewController:lvc animated:NO];
     
-} 
+}
 
 /*
-#pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {

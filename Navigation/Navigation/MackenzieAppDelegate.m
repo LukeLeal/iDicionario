@@ -8,6 +8,7 @@
 
 #import "MackenzieAppDelegate.h"
 #import "MainViewController.h"
+#import "TableViewController.h"
 
 @implementation MackenzieAppDelegate
 
@@ -19,9 +20,17 @@
     
     self.navigationController = [[UINavigationController alloc]
                                  initWithRootViewController:viewController];
+    TableViewController *tvc = [[TableViewController alloc] init];
+    
     self.window = [[UIWindow alloc]
                    initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.rootViewController = self.navigationController;
+    UITabBarController *tabbar = [[UITabBarController alloc] init];
+    
+    self.navigationController.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Navegação" image:[UIImage imageNamed:@"Book Stack"] tag:0];
+    tvc.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Tabela" image:[UIImage imageNamed:@"View Details"] tag:1];
+    tabbar.viewControllers = @[self.navigationController, tvc];
+    
+    self.window.rootViewController = tabbar;
 
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
