@@ -10,8 +10,9 @@
 
 @interface LetraViewController () {
     UILabel *traducao;
-    UIImageView *imagem;
+//    UIImageView *imagem;
     UILabel *palavra;
+    UIButton *imagem;
     
     UITextField *palavraEdit;
     UITextField *traducaoEdit;
@@ -33,16 +34,14 @@
     self.navigationItem.rightBarButtonItem=next;
     UIBarButtonItem *back = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRewind target:self action:@selector(back:)];
     self.navigationItem.leftBarButtonItem = back;
-    //self.edi
     
     UIToolbar *tools = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 65, self.view.frame.size.width, 45)];
     [tools setBackgroundColor:[UIColor redColor]];
     
-    UIBarButtonItem *edit = self.editButtonItem;
-    //UIBarButtonItem *edit = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(editMode:)];
+    UIBarButtonItem *edit = self.editButtonItem;//Ativa o modo de edição, chamando "setEditing"
     tools.items = @[edit];
-    
     [self.view addSubview:tools];
+    
     palavra = [[UILabel alloc] initWithFrame:CGRectMake(((self.view.frame.size.width/2)-50), 125, 100, 25)];
     palavra.text = [_letra palavra];
     [palavra sizeToFit];
@@ -52,7 +51,7 @@
     palavraEdit = [[UITextField alloc] initWithFrame:CGRectMake(((self.view.frame.size.width/2)-100), 125, 200, 25)];
     palavraEdit.text = [_letra palavra];
     [palavraEdit setBackgroundColor:[UIColor redColor]];
-    palavraEdit.hidden = TRUE;
+    palavraEdit.hidden = TRUE; //Este text field apenas "existe" no modo de edição
     [self.view addSubview:palavraEdit];
     
     traducao = [[UILabel alloc] initWithFrame:CGRectMake(((self.view.frame.size.width/2)-50), 150, 100, 25)];
@@ -63,21 +62,37 @@
     traducaoEdit = [[UITextField alloc] initWithFrame:CGRectMake(((self.view.frame.size.width/2)-100), 150, 200, 25)];
     traducaoEdit.text = [_letra traducao];
     [traducaoEdit setBackgroundColor:[UIColor redColor]];
-    traducaoEdit.hidden = TRUE;
+    traducaoEdit.hidden = TRUE; //Este text field apenas "existe" no modo de edição
     [self.view addSubview:traducaoEdit];
     
-    imagem = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width/2, 200, 0, 0)];
-    imagem.image = [UIImage imageWithContentsOfFile:[_letra imagem]];
+    imagem = [UIButton buttonWithType:UIButtonTypeCustom];//Imagem que é um botão. Necessário (?) para poder chamar ações.
+    imagem.frame = CGRectMake(self.view.frame.size.width/2, 200, 0, 0);
+    [imagem addTarget:self action:@selector(moveImagem:withEvent:) forControlEvents:UIControlEventTouchDown];
+    [imagem addTarget:self action:@selector(moveImagem:withEvent:) forControlEvents:UIControlEventTouchDragInside];
+    [imagem setImage:[UIImage imageWithContentsOfFile:[_letra imagem]] forState:UIControlStateNormal];
+    imagem.imageView.frame = CGRectMake(imagem.frame.size.width/2, imagem.frame.size.height, 0, 0);
+    imagem.imageView.layer.cornerRadius = 110;//Determina o raio
+    imagem.imageView.clipsToBounds = YES;//Delimita o tamanho ao raio.
     [self.view addSubview:imagem];
+    
+//    Código antigo:
+//    imagem = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width/2, 200, 0, 0)];
+//    imagem.image = [UIImage imageWithContentsOfFile:[_letra imagem]];
+//    imagem.layer.cornerRadius = 110;//Determina o raio
+//    imagem.clipsToBounds = YES;//Delimita o tamanho ao raio.
+//    [self.view addSubview:imagem];
 
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-    imagem.frame = CGRectMake(self.view.frame.size.width/2, 200, 0, 0);//Volta tamanho pra 0 aqui para não quebrar a animação durante transicão via tabBar
+    //imagem.frame = CGRectMake(self.view.frame.size.width/2, 200, 0, 0);
+    imagem.frame = CGRectMake(self.view.frame.size.width/2 - 110, 200, 220, 220);
+    imagem.imageView.frame = CGRectMake(imagem.frame.size.width/2, imagem.frame.size.height/2, 0, 0);//Volta tamanho pra 0 aqui para não quebrar a animação durante transicão via tabBar
     [UIView animateWithDuration:1.5 animations:^{
-        imagem.frame = CGRectMake(self.view.frame.size.width/2 - 100, 200, 200, 200);
+        imagem.imageView.frame = CGRectMake(0, 0, 220, 220);
         for (int i = 0; i < 10; i++) {
-            imagem.transform  = CGAffineTransformRotate(imagem.transform, M_PI);
+            //Gira 180 graus 10 vezes. Deve ter um jeito mais melhor de bom.
+            imagem.imageView.transform  = CGAffineTransformRotate(imagem.imageView.transform, M_PI);
         }
     } ];
 }
@@ -99,6 +114,7 @@
         traducaoEdit.hidden = FALSE;
     }
     else {
+        //Altera os dados das palavras no "banco de dados" de acordo com o que foi digitado nos textField.
         NSArray *letras = [[[CentralData alloc] instancia] getLetras];
         LetraInfo *altera = (LetraInfo *)[letras objectAtIndex:[_letra num]];
         [altera setPalavra:[palavraEdit text]];
@@ -118,6 +134,17 @@
     }
 }
 
+- (IBAction) moveImagem:(id)sender withEvent:(UIEvent *)event{
+    //Ponto determinado em duas dimensões terá as coordenadas do local do evento de clique (no caso, um que arrasta).
+    CGPoint ponto = [[[event allTouches] anyObject] locationInView: self.view];
+    
+    //Classe base de objetos como o botão. control recebe o botào clicado (sender).
+    UIControl *control = sender;
+    
+    //Define o centro da frame de control como as coordenadas do ponto.
+    control.center = ponto;
+}
+
 
 #pragma mark - Navigation
 /*
@@ -130,17 +157,22 @@
 
 -(void)next:(id)sender {
 
+    //imagem.imageView.frame = CGRectMake(imagem.frame.size.width/2, imagem.frame.size.height/2, 0, 0);
+
     [UIView animateWithDuration:0.5 animations:^{
         imagem.frame = CGRectMake(self.view.frame.size.width/2, 200, 0, 0);
     }completion:^(BOOL finished){
-        NSLog(@"%d", [[self.navigationController viewControllers] count]);
 
+        //Deleta a posição 1 da array de views
+        //Coloca a letra atual na posição 1 da array de views
+        //Da push na próxima letra. Array sempre terá 3 objetos durante a troca de views.
+        
         LetraViewController *proximo = [[LetraViewController alloc]
                                         initWithNibName:nil
                                         bundle:NULL];
         NSArray *letras = [[[CentralData alloc] instancia] getLetras];
         
-        if ([_letra num] == 25) {
+        if ([_letra num] == 25) {//Se letra for Z
             proximo.letra = [letras objectAtIndex: 0];
         } else{
             proximo.letra = [letras objectAtIndex:[_letra num] +1];
@@ -149,7 +181,6 @@
         NSMutableArray *controllers = [[NSMutableArray alloc] initWithArray:[self.navigationController viewControllers]];
         [controllers removeObjectAtIndex:1];
         [self.navigationController setViewControllers:controllers];
-        NSLog(@"%@", [(LetraInfo *)[letras objectAtIndex:[_letra num]] palavra]);
         [self.navigationController pushViewController:proximo animated:YES];
     }];
 }
@@ -158,21 +189,22 @@
     [UIView animateWithDuration:0.5 animations:^{
         imagem.frame = CGRectMake(self.view.frame.size.width/2, 200, 0, 0);
     }completion:^(BOOL finished){
-        NSLog(@"%d", [[self.navigationController viewControllers] count]);
-
+        //Coloca a letra anterior da anterior na posição 1 da array.
+        //Dá pop para a letra anterior da anterior (letra atual sai da array). Array sempre terá 3 objetos durante a troca de views.
+        
         LetraViewController *aa = [[LetraViewController alloc]
                                         initWithNibName:nil
                                         bundle:NULL];//Anterior do Anterior
         NSArray *letras = [[[CentralData alloc] instancia] getLetras];
         
-        if ([_letra num] == 1) {
+        if ([_letra num] == 1) {//Se letra for B
             aa.letra = [letras objectAtIndex: 25];
-        } else if ([_letra num] == 0){
+        } else if ([_letra num] == 0){//Se letra for A
             aa.letra = [letras objectAtIndex: 24];
         } else{
             aa.letra = [letras objectAtIndex:[_letra num] -2];
         }
-        NSLog(@"%@", [(LetraInfo *)[letras objectAtIndex:[_letra num]] palavra]);
+        
         NSMutableArray *controllers = [[NSMutableArray alloc] initWithArray:[self.navigationController viewControllers]];
         [controllers insertObject:aa atIndex:1];
         [self.navigationController setViewControllers:controllers];

@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "LetraInfo.h"
 #import "CentralData.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface LetraViewController : UIViewController
 
