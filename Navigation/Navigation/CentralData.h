@@ -11,6 +11,7 @@
 
 @interface CentralData : NSObject
 
-+ (CentralData *) instancia;
+- (CentralData *) instancia;
 - (NSArray *) getLetras;
+- (void) setLetras: (NSArray *)arr;
 @end

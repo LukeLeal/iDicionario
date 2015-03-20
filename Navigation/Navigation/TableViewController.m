@@ -18,7 +18,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    letras = [[[CentralData alloc] init] getLetras];
+    letras = [[[CentralData alloc] instancia] getLetras];
     _table = [[UITableView alloc] initWithFrame:CGRectMake(0, 25, self.view.frame.size.width, self.view.frame.size.height - 65)];
     _table.delegate = self;
     _table.dataSource = self;

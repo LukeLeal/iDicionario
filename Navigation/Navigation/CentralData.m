@@ -13,7 +13,7 @@ static NSArray *letras;
 
 static CentralData *_cd = nil;
 
-+ (CentralData *) instancia{
+- (CentralData *) instancia{
     if (_cd == nil) {
         _cd = [[CentralData alloc] init];
     }
@@ -60,5 +60,9 @@ static CentralData *_cd = nil;
 -(NSArray *) getLetras{
     return letras;
 }
+
+//- (void) setLetras: (NSArray *)arr{
+//    letras = arr;
+//}
 
 @end

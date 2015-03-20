@@ -26,9 +26,10 @@
     [self.view addSubview:search];
     
     UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(((self.view.frame.size.width/2)-50), 150, 100, 25)];
-    title.text = @"Dicionator";//Nome Placeholder
+    title.text = @"Dicionario Controle Remoto";//Nome Placeholder
     [self.view addSubview:title];
     
+    //Começa o dicionário diretamente pela letra A
     UIButton *comecar = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     comecar.frame = CGRectMake(((self.view.frame.size.width/2)-50), 300, 100, 25);
     [comecar setTitle:@"Começar" forState:UIControlStateNormal];
@@ -36,7 +37,7 @@
     [self.view addSubview:comecar];
     
     //Coloca links para cada letra do dicionário em posição baseada pela ordem alfabética
-    letras = [[[CentralData alloc] init] getLetras];
+    letras = [[[CentralData alloc] instancia] getLetras];
     for (int i = 0; i < [letras count]/2; i++) {
         UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         button.frame = CGRectMake((i + 1)*20, 200, 15, 10);
@@ -53,9 +54,6 @@
         [button setTag:i];
         [self.view addSubview:button];
         
-//        UITabBar *tabbar = [[UITabBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height -44, self.view.frame.size.width, 44)];
-//        [tabbar setBackgroundColor:[UIColor redColor]];
-//        [self.view addSubview:tabbar];
     }
 
 }
@@ -68,6 +66,7 @@
 #pragma mark - Navigation
 
 -(void)iniciarDicio{
+    //Coloca Z na posição 1 de "viewControllers" e dá push pro A. A array sempre terá tamanho 3 -> Tela inicial / Letra anterior / Letra Atual
     LetraViewController *lvc = [[LetraViewController alloc] init];
     lvc.letra = [letras objectAtIndex:0];//Letra A
     LetraViewController *lvcZ = [[LetraViewController alloc] init];

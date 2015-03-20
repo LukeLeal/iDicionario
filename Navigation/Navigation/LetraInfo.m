@@ -16,7 +16,7 @@
         _letra = l;
         _palavra = p;
         _num = n;
-        _imagem = [[NSBundle mainBundle] pathForResource:i ofType:nil];
+        _imagem = [[NSBundle mainBundle] pathForResource:i ofType:nil];//Pega o caminho pro arquivo de nome "i".
         _traducao = t;
     }
     return self;
