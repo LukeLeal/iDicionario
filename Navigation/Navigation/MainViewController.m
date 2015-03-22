@@ -10,6 +10,7 @@
 
 @interface MainViewController (){
     NSArray *letras;
+    CentralData *cd;
 }
 
 @end
@@ -18,6 +19,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    //COMENTAR ESTA ÁREA APÓS A PRIMEIRA EXECUÇÃO!
+//    UIButton *dados = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+//    dados.frame = CGRectMake(((self.view.frame.size.width/2)-50), 400, 100, 25);
+//    [dados setTitle:@"DADOS PADRÃO" forState:UIControlStateNormal];
+//    [dados addTarget:self action:@selector(criaDados) forControlEvents:UIControlEventTouchUpInside];
+//    [self.view addSubview:dados];
+    //COMENTAR ESTA ÁREA APÓS A PRIMEIRA EXECUÇÃO!
     
     [self.view setBackgroundColor:[UIColor whiteColor]];
 
@@ -36,8 +45,9 @@
     [comecar addTarget:self action:@selector(iniciarDicio) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:comecar];
     
+    cd = [CentralData sharedInstance];
     //Coloca links para cada letra do dicionário em posição baseada pela ordem alfabética
-    letras = [[[CentralData alloc] instancia] getLetras];
+    letras = [cd getLetras];
     for (int i = 0; i < [letras count]/2; i++) {
         UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         button.frame = CGRectMake((i + 1)*20, 200, 15, 10);
@@ -56,6 +66,11 @@
         
     }
 
+}
+
+- (void) criaDados {
+    [cd dadosPadrao];
+    NSLog(@"Dados criados com sucesso. Reinicie o programa e comente a área da criação deste botão!");
 }
 
 - (void)didReceiveMemoryWarning {

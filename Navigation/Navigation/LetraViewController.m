@@ -9,11 +9,12 @@
 #import "LetraViewController.h"
 
 @interface LetraViewController () {
+    NSArray *letras;
     UILabel *traducao;
 //    UIImageView *imagem;
     UILabel *palavra;
     UIButton *imagem;
-    
+    CentralData *cd;
     UITextField *palavraEdit;
     UITextField *traducaoEdit;
 }
@@ -26,6 +27,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    cd = [CentralData sharedInstance];
+    letras = [cd getLetras];
+    
+    UILongPressGestureRecognizer *longo = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handler:)];
+    longo.minimumPressDuration = 0.5;
+    [self.view addGestureRecognizer:longo];
     
     [self.view setBackgroundColor:[UIColor whiteColor]];
     self.title = [_letra letra];
@@ -67,8 +74,9 @@
     
     imagem = [UIButton buttonWithType:UIButtonTypeCustom];//Imagem que é um botão. Necessário (?) para poder chamar ações.
     imagem.frame = CGRectMake(self.view.frame.size.width/2, 200, 0, 0);
-    [imagem addTarget:self action:@selector(moveImagem:withEvent:) forControlEvents:UIControlEventTouchDown];
-    [imagem addTarget:self action:@selector(moveImagem:withEvent:) forControlEvents:UIControlEventTouchDragInside];
+    [imagem addTarget:self action:@selector(moveImagem:withEvent:) forControlEvents:UIControlEventTouchDown];//Muda o centro no momento do clique.
+    [imagem addTarget:self action:@selector(moveImagem:withEvent:) forControlEvents:UIControlEventTouchDragInside];//Muda o centro de acordo com o "arrastamento".
+    [imagem addTarget:self action:@selector(aumentaImagem:) forControlEvents:longo];
     [imagem setImage:[UIImage imageWithContentsOfFile:[_letra imagem]] forState:UIControlStateNormal];
     imagem.imageView.frame = CGRectMake(imagem.frame.size.width/2, imagem.frame.size.height, 0, 0);
     imagem.imageView.layer.cornerRadius = 110;//Determina o raio
@@ -103,6 +111,13 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void) handler: (UILongPressGestureRecognizer *)gesture{
+//    if (gesture.view == imagem) {
+//        NSLog(@"e");
+//    }
+//    NSLog(@"a");
+}
+
 
 - (void)setEditing:(BOOL)flag animated:(BOOL)animated
 {
@@ -115,16 +130,24 @@
     }
     else {
         //Altera os dados das palavras no "banco de dados" de acordo com o que foi digitado nos textField.
-        NSArray *letras = [[[CentralData alloc] instancia] getLetras];
-        LetraInfo *altera = (LetraInfo *)[letras objectAtIndex:[_letra num]];
-        [altera setPalavra:[palavraEdit text]];
-        [altera setTraducao:[traducaoEdit text]];
+        RLMRealm *realm = [_letra realm];
+        [realm beginWriteTransaction];
+        [_letra setPalavra:palavraEdit.text];
+        [_letra setTraducao:traducaoEdit.text];
+        [realm commitWriteTransaction];
         
-        [[letras objectAtIndex:[altera num]] setPalavra:[altera palavra]];
-        [[letras objectAtIndex:[altera num]] setTraducao:[altera traducao]];
+        
+//        //NSArray *letras = [[[CentralData alloc] instancia] getLetras];
+//
+//        LetraInfo *altera = (LetraInfo *)[letras objectAtIndex:[_letra num]];
+//        [altera setPalavra:[palavraEdit text]];
+//        [altera setTraducao:[traducaoEdit text]];
+//        
+//        [[letras objectAtIndex:[altera num]] setPalavra:[altera palavra]];
+//        [[letras objectAtIndex:[altera num]] setTraducao:[altera traducao]];
 
-        palavra.text = [altera palavra];
-        traducao.text = [altera traducao];
+        palavra.text = palavraEdit.text;
+        traducao.text = traducaoEdit.text;
         [palavra sizeToFit];
         palavra.hidden = FALSE;
         palavraEdit.hidden = TRUE;
@@ -141,8 +164,12 @@
     //Classe base de objetos como o botão. control recebe o botào clicado (sender).
     UIControl *control = sender;
     
-    //Define o centro da frame de control como as coordenadas do ponto.
+    //DefZine o centro da frame de control como as coordenadas do ponto.
     control.center = ponto;
+}
+
+- (IBAction) aumentaImagem:(id)sender{
+    NSLog(@"Ayy lmao");
 }
 
 
@@ -170,7 +197,7 @@
         LetraViewController *proximo = [[LetraViewController alloc]
                                         initWithNibName:nil
                                         bundle:NULL];
-        NSArray *letras = [[[CentralData alloc] instancia] getLetras];
+        //NSArray *letras = [[[CentralData alloc] instancia] getLetras];
         
         if ([_letra num] == 25) {//Se letra for Z
             proximo.letra = [letras objectAtIndex: 0];
@@ -195,7 +222,7 @@
         LetraViewController *aa = [[LetraViewController alloc]
                                         initWithNibName:nil
                                         bundle:NULL];//Anterior do Anterior
-        NSArray *letras = [[[CentralData alloc] instancia] getLetras];
+        //NSArray *letras = [[[CentralData alloc] instancia] getLetras];
         
         if ([_letra num] == 1) {//Se letra for B
             aa.letra = [letras objectAtIndex: 25];

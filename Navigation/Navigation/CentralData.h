@@ -9,9 +9,10 @@
 #import <Foundation/Foundation.h>
 #import "LetraInfo.h"
 
+@class LetraInfo;
 @interface CentralData : NSObject
 
-- (CentralData *) instancia;
++ (CentralData*)sharedInstance;
+- (void) dadosPadrao;
 - (NSArray *) getLetras;
-- (void) setLetras: (NSArray *)arr;
 @end

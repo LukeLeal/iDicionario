@@ -10,6 +10,8 @@
 
 @interface TableViewController (){
     NSArray *letras;
+    CentralData *cd;
+
 }
 
 @end
@@ -18,7 +20,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    letras = [[[CentralData alloc] instancia] getLetras];
+    cd = [CentralData sharedInstance];
+    letras = [cd getLetras];
     _table = [[UITableView alloc] initWithFrame:CGRectMake(0, 25, self.view.frame.size.width, self.view.frame.size.height - 65)];
     _table.delegate = self;
     _table.dataSource = self;

@@ -7,23 +7,58 @@
 //
 
 #import "CentralData.h"
+#import <Realm/Realm.h>
 
-static NSArray *letras;
+static CentralData *SINGLETON = nil;
+static bool isFirstAccess = YES;
+
+//static NSArray *letras;
 @implementation CentralData
 
-static CentralData *_cd = nil;
-
-- (CentralData *) instancia{
-    if (_cd == nil) {
-        _cd = [[CentralData alloc] init];
-    }
-    return _cd;
++ (id)sharedInstance
+{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        isFirstAccess = NO;
+        SINGLETON = [[super allocWithZone:NULL] init];
+    });
+    
+    return SINGLETON;
 }
 
--(id) init{
+//- (CentralData *) instancia{
+//    if (_cd == nil) {
+//        _cd = [[CentralData alloc] init];
+//    }
+//    return _cd;
+//}
+
+- (id) init
+{
+    if(SINGLETON){
+        return SINGLETON;
+    }
+    if (isFirstAccess) {
+        //[self dadosPadrao]; //COMENTAR ESSA LINHA SE OS DADOS PADRÃO JÁ EXISTIREM NO REALM!!
+        [self doesNotRecognizeSelector:_cmd];
+    }
     self = [super init];
-    if (self) {
-        letras = [[NSArray alloc] initWithObjects:
+    return self;
+}
+
+-(NSArray *) getLetras{
+    RLMResults *resultados = [LetraInfo allObjects];
+    NSMutableArray *letras = [[NSMutableArray alloc] initWithCapacity:[resultados count]];
+    
+    for (LetraInfo *li in resultados) {
+        [letras addObject:li];
+    }
+    return letras;
+}
+
+//Método usado apenas uma vez para colocar os dados padrão.
+-(void) dadosPadrao{
+        NSArray *letras = [[NSArray alloc] initWithObjects:
                   [[LetraInfo alloc] initWithLetra:@"A" palavra:@"Armadillo" traducao:@"Tatu" imagem:@"letraA.jpg" num: 0],
                   [[LetraInfo alloc] initWithLetra:@"B" palavra:@"Beaver" traducao:@"Castor" imagem:@"letraB.jpg" num:1],
                   [[LetraInfo alloc] initWithLetra:@"C" palavra:@"Cow" traducao:@"Vaca" imagem:@"letraC.jpg" num:2],
@@ -53,16 +88,44 @@ static CentralData *_cd = nil;
                   
                   //[[LetraInfo alloc] initWithLetra:@"" palavra:@"" imagem:@""],
                   nil];
+    
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    [realm beginWriteTransaction];
+    for (LetraInfo *li in letras) {
+        [realm addObject:li];;
     }
-    return self;
+    [realm commitWriteTransaction];
+    NSLog(@"Chegou");
 }
 
--(NSArray *) getLetras{
-    return letras;
+#pragma mark - Life Cycle
+
++ (id) allocWithZone:(NSZone *)zone
+{
+    return [self sharedInstance];
 }
 
-//- (void) setLetras: (NSArray *)arr{
-//    letras = arr;
-//}
++ (id)copyWithZone:(struct _NSZone *)zone
+{
+    return [self sharedInstance];
+}
+
++ (id)mutableCopyWithZone:(struct _NSZone *)zone
+{
+    return [self sharedInstance];
+}
+
+- (id)copy
+{
+    return [[CentralData alloc] init];
+}
+
+- (id)mutableCopy
+{
+    return [[CentralData alloc] init];
+}
+
+
+
 
 @end

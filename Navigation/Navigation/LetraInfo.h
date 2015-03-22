@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <Realm/Realm.h>
 
-@interface LetraInfo : NSObject
+@interface LetraInfo : RLMObject
 
 @property (nonatomic, strong) NSString *letra;
 @property (nonatomic, strong) NSString *palavra;
