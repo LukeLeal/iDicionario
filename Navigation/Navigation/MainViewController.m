@@ -20,13 +20,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    //COMENTAR ESTA ÁREA APÓS A PRIMEIRA EXECUÇÃO!
+//    //COMENTAR ESTA ÁREA APÓS A PRIMEIRA EXECUÇÃO!
 //    UIButton *dados = [UIButton buttonWithType:UIButtonTypeRoundedRect];
 //    dados.frame = CGRectMake(((self.view.frame.size.width/2)-50), 400, 100, 25);
 //    [dados setTitle:@"DADOS PADRÃO" forState:UIControlStateNormal];
 //    [dados addTarget:self action:@selector(criaDados) forControlEvents:UIControlEventTouchUpInside];
 //    [self.view addSubview:dados];
-    //COMENTAR ESTA ÁREA APÓS A PRIMEIRA EXECUÇÃO!
+//    //COMENTAR ESTA ÁREA APÓS A PRIMEIRA EXECUÇÃO!
     
     [self.view setBackgroundColor:[UIColor whiteColor]];
 

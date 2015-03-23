@@ -35,6 +35,7 @@ static bool isFirstAccess = YES;
 
 - (id) init
 {
+    //[[NSFileManager defaultManager] removeItemAtPath:[RLMRealm defaultRealmPath] error:nil]; //Executar caso queira deletar os dados do Realm.
     if(SINGLETON){
         return SINGLETON;
     }

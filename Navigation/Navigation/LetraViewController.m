@@ -77,7 +77,7 @@
     [imagem addTarget:self action:@selector(moveImagem:withEvent:) forControlEvents:UIControlEventTouchDown];//Muda o centro no momento do clique.
     [imagem addTarget:self action:@selector(moveImagem:withEvent:) forControlEvents:UIControlEventTouchDragInside];//Muda o centro de acordo com o "arrastamento".
     [imagem addTarget:self action:@selector(aumentaImagem:) forControlEvents:longo];
-    [imagem setImage:[UIImage imageWithContentsOfFile:[_letra imagem]] forState:UIControlStateNormal];
+    [imagem setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:[_letra imagem] ofType:nil]] forState:UIControlStateNormal];
     imagem.imageView.frame = CGRectMake(imagem.frame.size.width/2, imagem.frame.size.height, 0, 0);
     imagem.imageView.layer.cornerRadius = 110;//Determina o raio
     imagem.imageView.clipsToBounds = YES;//Delimita o tamanho ao raio.
