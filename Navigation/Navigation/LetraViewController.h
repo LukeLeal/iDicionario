@@ -10,8 +10,9 @@
 #import "LetraInfo.h"
 #import "CentralData.h"
 #import <QuartzCore/QuartzCore.h>
+#import <MobileCoreServices/MobileCoreServices.h>
 
-@interface LetraViewController : UIViewController
+@interface LetraViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @property (nonatomic, strong) LetraInfo *letra;
 //@property (nonatomic, strong) IBOutlet UILabel *titulo;

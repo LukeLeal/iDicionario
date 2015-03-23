@@ -17,6 +17,7 @@
     CentralData *cd;
     UITextField *palavraEdit;
     UITextField *traducaoEdit;
+    UIButton *imagemEdit;
 }
 
 //ImagePicker
@@ -89,6 +90,13 @@
 //    imagem.layer.cornerRadius = 110;//Determina o raio
 //    imagem.clipsToBounds = YES;//Delimita o tamanho ao raio.
 //    [self.view addSubview:imagem];
+    
+    imagemEdit = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    imagemEdit.frame = CGRectMake(self.view.frame.size.width/2, 450, 0, 0);
+    [imagemEdit setTitle:@"Trocar Imagem" forState:UIControlStateNormal];
+    [imagemEdit sizeToFit];
+    [imagemEdit addTarget:self action:@selector(trocaImagem:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:imagemEdit];
 
 }
 
@@ -118,6 +126,30 @@
 //    NSLog(@"a");
 }
 
+- (IBAction)trocaImagem:(id)sender{
+    //Verifica se o album de fotos está disponível
+    if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeSavedPhotosAlbum]){
+        UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+        imagePicker.delegate = self;
+        imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        imagePicker.mediaTypes = [NSArray arrayWithObjects:(NSString *) kUTTypeImage, nil];
+        imagePicker.allowsEditing = NO;
+        [self presentViewController:imagePicker animated:YES completion:nil];
+    }
+}
+
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
+    NSString *mediaType = [info objectForKey:UIImagePickerControllerMediaType];
+    [self dismissViewControllerAnimated:YES completion:nil];
+    if([mediaType isEqualToString:(NSString *)kUTTypeImage]){
+        UIImage *i = [info objectForKey:UIImagePickerControllerOriginalImage];
+        [imagem setImage:i forState:UIControlStateNormal];
+    }
+}
+
+-(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
 - (void)setEditing:(BOOL)flag animated:(BOOL)animated
 {
