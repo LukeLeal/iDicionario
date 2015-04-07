@@ -7,6 +7,7 @@
 //
 
 #import "LetraInfo.h"
+#import <UIKit/UIKit.h>
 
 @implementation LetraInfo
 
@@ -16,11 +17,19 @@
         _letra = l;
         _palavra = p;
         _num = n;
-        _imagem = i;//[[NSBundle mainBundle] pathForResource:i ofType:nil];//Pega o caminho pro arquivo de nome "i".
+        [self setImagemWithUIImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:i ofType:nil]]];//Configura o NSData de acordo com a imagem gerada de acordo com o caminho do nome do arquivo passado (i).
         _traducao = t;
+        //[imagem setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:[_letra imagem] ofType:nil]] forState:UIControlStateNormal];
     }
     return self;
 }
 
+- (void)setImagemWithUIImage:(UIImage *)newFoto {
+    _imagem = UIImagePNGRepresentation(newFoto);
+}
+
+//- (UIImage *)getImagemAsImage {
+//    return [UIImage imageWithData:_imagem];
+//}
 
 @end

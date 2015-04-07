@@ -35,7 +35,8 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Celula"];
-    cell.imageView.image = [UIImage imageWithContentsOfFile:[(LetraInfo *)[letras objectAtIndex:indexPath.row] imagem]];
+    NSData *i = [(LetraInfo *)[letras objectAtIndex:indexPath.row] imagem];
+    cell.imageView.image = [UIImage imageWithData:i];
     cell.textLabel.text = [(LetraInfo *)[letras objectAtIndex:indexPath.row] palavra];
     return cell;
 }

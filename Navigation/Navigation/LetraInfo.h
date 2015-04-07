@@ -13,9 +13,13 @@
 
 @property (nonatomic, strong) NSString *letra;
 @property (nonatomic, strong) NSString *palavra;
-@property (nonatomic, strong) NSString *imagem;
+@property (nonatomic, strong) NSData *imagem;
 @property (nonatomic, strong) NSString *traducao;
 @property int num;
 
 -(id) initWithLetra: (NSString *)l palavra: (NSString *)p traducao: (NSString *)t imagem:(NSString *)i num:(int)n;
+
+- (void)setImagemWithUIImage:(UIImage *)newFoto;
+
+//- (UIImage *)getImagemAsImage;
 @end

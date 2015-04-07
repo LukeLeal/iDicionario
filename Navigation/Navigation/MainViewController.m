@@ -10,7 +10,7 @@
 
 @interface MainViewController (){
     NSArray *letras;
-    CentralData *cd;
+    //CentralData *cd;
 }
 
 @end
@@ -20,13 +20,20 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-//    //COMENTAR ESTA ÁREA APÓS A PRIMEIRA EXECUÇÃO!
+//    //Código Antigo:
 //    UIButton *dados = [UIButton buttonWithType:UIButtonTypeRoundedRect];
 //    dados.frame = CGRectMake(((self.view.frame.size.width/2)-50), 400, 100, 25);
 //    [dados setTitle:@"DADOS PADRÃO" forState:UIControlStateNormal];
 //    [dados addTarget:self action:@selector(criaDados) forControlEvents:UIControlEventTouchUpInside];
 //    [self.view addSubview:dados];
-//    //COMENTAR ESTA ÁREA APÓS A PRIMEIRA EXECUÇÃO!
+    
+    //Verifica se é a primeira execução do App. Se for, insere os dados padrão no banco.
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    if (![ud objectForKey:@"dadosCriados"]) {
+        //[cd dadosPadrao];
+        [[CentralData sharedInstance] dadosPadrao];
+        [ud setBool:YES forKey:@"dadosCriados"];
+    }
     
     [self.view setBackgroundColor:[UIColor whiteColor]];
 
@@ -34,8 +41,9 @@
     search.placeholder = @"NOT IMPLEMENTED";
     [self.view addSubview:search];
     
-    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(((self.view.frame.size.width/2)-50), 150, 100, 25)];
-    title.text = @"Dicionario Controle Remoto";//Nome Placeholder
+    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(((self.view.frame.size.width/2)-110), 150, 100, 25)];
+    title.text = @"Dicionário Controle Remoto";//Nome Placeholder
+    [title sizeToFit];
     [self.view addSubview:title];
     
     //Começa o dicionário diretamente pela letra A
@@ -45,9 +53,9 @@
     [comecar addTarget:self action:@selector(iniciarDicio) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:comecar];
     
-    cd = [CentralData sharedInstance];
+    //cd = [CentralData sharedInstance];
     //Coloca links para cada letra do dicionário em posição baseada pela ordem alfabética
-    letras = [cd getLetras];
+    letras = [[CentralData sharedInstance] getLetras];
     for (int i = 0; i < [letras count]/2; i++) {
         UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         button.frame = CGRectMake((i + 1)*20, 200, 15, 10);
@@ -67,11 +75,11 @@
     }
 
 }
-
-- (void) criaDados {
-    [cd dadosPadrao];
-    NSLog(@"Dados criados com sucesso. Reinicie o programa e comente a área da criação deste botão!");
-}
+//
+//- (void) criaDados {
+//    [cd dadosPadrao];
+//    NSLog(@"Dados criados com sucesso. Reinicie o programa e comente a área da criação deste botão!");
+//}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

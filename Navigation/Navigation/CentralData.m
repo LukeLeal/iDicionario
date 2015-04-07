@@ -26,12 +26,6 @@ static bool isFirstAccess = YES;
     return SINGLETON;
 }
 
-//- (CentralData *) instancia{
-//    if (_cd == nil) {
-//        _cd = [[CentralData alloc] init];
-//    }
-//    return _cd;
-//}
 
 - (id) init
 {
@@ -40,7 +34,7 @@ static bool isFirstAccess = YES;
         return SINGLETON;
     }
     if (isFirstAccess) {
-        //[self dadosPadrao]; //COMENTAR ESSA LINHA SE OS DADOS PADRÃO JÁ EXISTIREM NO REALM!!
+        [self dadosPadrao]; //COMENTAR ESSA LINHA SE OS DADOS PADRÃO JÁ EXISTIREM NO REALM!!
         [self doesNotRecognizeSelector:_cmd];
     }
     self = [super init];
@@ -96,7 +90,6 @@ static bool isFirstAccess = YES;
         [realm addObject:li];;
     }
     [realm commitWriteTransaction];
-    NSLog(@"Chegou");
 }
 
 #pragma mark - Life Cycle
