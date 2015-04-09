@@ -18,6 +18,7 @@
     UITextField *palavraEdit;
     UITextField *traducaoEdit;
     UIButton *imagemEdit;
+    UIDatePicker *dp;
 }
 
 //ImagePicker
@@ -60,6 +61,7 @@
     palavraEdit.text = [_letra palavra];
     [palavraEdit setBackgroundColor:[UIColor redColor]];
     palavraEdit.hidden = TRUE; //Este text field apenas "existe" no modo de edição
+    [palavraEdit setDelegate:self];
     [self.view addSubview:palavraEdit];
     
     traducao = [[UILabel alloc] initWithFrame:CGRectMake(((self.view.frame.size.width/2)-50), 150, 100, 25)];
@@ -71,6 +73,7 @@
     traducaoEdit.text = [_letra traducao];
     [traducaoEdit setBackgroundColor:[UIColor redColor]];
     traducaoEdit.hidden = TRUE; //Este text field apenas "existe" no modo de edição
+    [traducaoEdit setDelegate:self];
     [self.view addSubview:traducaoEdit];
     
     imagem = [UIButton buttonWithType:UIButtonTypeCustom];//Imagem que é um botão. Necessário (?) para poder chamar ações.
@@ -98,12 +101,20 @@
 //    [self.view addSubview:imagem];
     
     imagemEdit = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    imagemEdit.frame = CGRectMake(self.view.frame.size.width/2, 450, 0, 0);
+    imagemEdit.frame = CGRectMake(self.view.frame.size.width/2 + 50, 425, 0, 0);
     [imagemEdit setTitle:@"Trocar Imagem" forState:UIControlStateNormal];
     [imagemEdit sizeToFit];
     [imagemEdit addTarget:self action:@selector(trocaImagem:) forControlEvents:UIControlEventTouchUpInside];
+    imagemEdit.hidden = TRUE;
     [self.view addSubview:imagemEdit];
 
+    
+    dp = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 400, 0, 0) ];
+    //CGAffineTransform height = CGAffineTransformMakeScale(0.1, 0.1);
+    dp.transform = CGAffineTransformMakeScale(0.5, 0.5);
+    [dp setDate:[_letra data]];
+    [dp setUserInteractionEnabled:false];
+    [self.view addSubview:dp];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -164,14 +175,18 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)setEditing:(BOOL)flag animated:(BOOL)animated
-{
+- (void)setEditing:(BOOL)flag animated:(BOOL)animated{
+    
     [super setEditing:flag animated:animated];
     if (flag == YES){
+        self.navigationItem.leftBarButtonItem.enabled = false;
+        self.navigationItem.rightBarButtonItem.enabled = false;
         palavra.hidden = TRUE;
         palavraEdit.hidden = FALSE;
         traducao.hidden = TRUE;
         traducaoEdit.hidden = FALSE;
+        imagemEdit.hidden = FALSE;
+        [dp setUserInteractionEnabled:TRUE];
     }
     else {
         //Altera os dados das palavras no "banco de dados" de acordo com o que foi digitado nos textField.
@@ -179,27 +194,30 @@
         [realm beginWriteTransaction];
         [_letra setPalavra:palavraEdit.text];
         [_letra setTraducao:traducaoEdit.text];
+        [_letra setData:[dp date]];
         [realm commitWriteTransaction];
-        
-        
-//        //NSArray *letras = [[[CentralData alloc] instancia] getLetras];
-//
-//        LetraInfo *altera = (LetraInfo *)[letras objectAtIndex:[_letra num]];
-//        [altera setPalavra:[palavraEdit text]];
-//        [altera setTraducao:[traducaoEdit text]];
-//        
-//        [[letras objectAtIndex:[altera num]] setPalavra:[altera palavra]];
-//        [[letras objectAtIndex:[altera num]] setTraducao:[altera traducao]];
 
         palavra.text = palavraEdit.text;
         traducao.text = traducaoEdit.text;
         [palavra sizeToFit];
+        [dp setUserInteractionEnabled:FALSE];
         palavra.hidden = FALSE;
         palavraEdit.hidden = TRUE;
         traducao.hidden = FALSE;
         traducaoEdit.hidden = TRUE;
+        imagemEdit.hidden = TRUE;
+        
+        [self.view endEditing:YES];
+
         [traducao sizeToFit];
+        self.navigationItem.leftBarButtonItem.enabled = true;
+        self.navigationItem.rightBarButtonItem.enabled = true;
     }
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField*)t{
+    [t resignFirstResponder];
+    return YES;
 }
 
 - (IBAction) moveImagem:(id)sender withEvent:(UIEvent *)event{
@@ -230,7 +248,7 @@
 -(void)next:(id)sender {
 
     //imagem.imageView.frame = CGRectMake(imagem.frame.size.width/2, imagem.frame.size.height/2, 0, 0);
-
+    
     [UIView animateWithDuration:0.5 animations:^{
         imagem.frame = CGRectMake(self.view.frame.size.width/2, 200, 0, 0);
     }completion:^(BOOL finished){
@@ -258,6 +276,7 @@
 }
 
 -(void)back:(id)sender{
+    
     [UIView animateWithDuration:0.5 animations:^{
         imagem.frame = CGRectMake(self.view.frame.size.width/2, 200, 0, 0);
     }completion:^(BOOL finished){

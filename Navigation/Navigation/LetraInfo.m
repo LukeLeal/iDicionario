@@ -19,6 +19,7 @@
         _num = n;
         [self setImagemWithUIImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:i ofType:nil]]];//Configura o NSData de acordo com a imagem gerada de acordo com o caminho do nome do arquivo passado (i).
         _traducao = t;
+        _data = [NSDate date];
         //[imagem setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:[_letra imagem] ofType:nil]] forState:UIControlStateNormal];
     }
     return self;

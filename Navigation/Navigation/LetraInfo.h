@@ -16,6 +16,7 @@
 @property (nonatomic, strong) NSData *imagem;
 @property (nonatomic, strong) NSString *traducao;
 @property int num;
+@property (nonatomic, strong) NSDate *data;
 
 -(id) initWithLetra: (NSString *)l palavra: (NSString *)p traducao: (NSString *)t imagem:(NSString *)i num:(int)n;
 
